@@ -11,6 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class RoomRepository {
     private final Map<Integer, Room> rooms = new HashMap<>();
+    {
+        Room value = new Room();
+        value.setId(0);
+        rooms.put(0, value);
+    }
 
     private final AtomicInteger serialNumber = new AtomicInteger(0);
 
