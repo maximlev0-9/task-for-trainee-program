@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.traineevacancy.data.RoomRepository;
 import ua.lviv.iot.traineevacancy.exceptions.CornersAreNotClockwiseException;
+import ua.lviv.iot.traineevacancy.exceptions.CrossingWallsException;
 import ua.lviv.iot.traineevacancy.model.Room;
 
 import java.util.ArrayList;
@@ -27,22 +28,24 @@ public class RoomService {
         // to ease validations of last and first corners in list
         coordinates.add(coordinates.get(0));
 
-        // validate clockwise (and also 90 degrees corners)
         try {
+            // validate clockwise (and also 90 degrees corners)
             validateClockwise(room);
+            // algorithm: find two farthest (to one of the sides) corners of scheme and check, to which side it is turning. Like, I found
+            // 2 edge corners, understood, that they go clockwise, and then I should go in both sides of list to check
+            // if there all is ok. (Or shouldn't, I'm not sure yet)
+
+
+            // validate walls of new room for not crossing each other
+            validateNotCrossingWalls(room);
+            // algorithm: check each two walls of room:  if 2 points of 1 wall are between other two, and two other are between
+            // two first (in different coordinates) (and also I need to check if these walls are in different directions,
+            // like, one is in width and other is in length), then sth is wrong
         } catch (CornersAreNotClockwiseException e) {
             return "Corners are not clockwise";
+        } catch (CrossingWallsException e) {
+            return "Walls are crossing";
         }
-        // algorithm: find two farthest (to one of the sides) corners of scheme and check, to which side it is turning. Like, I found
-        // 2 edge corners, understood, that they go clockwise, and then I should go in both sides of list to check
-        // if there all is ok. (Or shouldn't, I'm not sure yet)
-
-
-        // validate walls of new room for not crossing each other
-        validateNotCrossingWalls(room);
-        // algorithm: check each two walls of room:  if 2 points of 1 wall are between other two, and two other are between
-        // two first (in different coordinates) (and also I need to check if these walls are in different directions,
-        // like, one is in width and other is in length), then sth is wrong
 
 
         // validate walls of new room to match and not cross walls of other rooms.
@@ -51,6 +54,7 @@ public class RoomService {
 
         return null;
     }
+
     /*
        explanation of how this method works:
        First, I create list of all corners with the most right position. Then,
@@ -72,7 +76,7 @@ public class RoomService {
 
         List<Integer> farthestRightIndexes = createFarthestRightIndexesList(coordinates);
         for (int i = 0; i < farthestRightIndexes.size(); i++) {
-            if (coordinates.get(i)[1] < coordinates.get(i+1)[1]){
+            if (coordinates.get(i)[1] < coordinates.get(i + 1)[1]) {
                 throw new CornersAreNotClockwiseException();
             }
         }
@@ -94,11 +98,53 @@ public class RoomService {
         return farthestRightIndexes;
     }
 
-    private void validateNotCrossingWalls(Room room){
+    private void validateNotCrossingWalls(Room room) throws CrossingWallsException {
         List<int[]> coordinates = room.getCoordinates();
-        for (int i = 0; i < coordinates.size()-1; i++) {
+        for (int i = 0; i < coordinates.size() - 1; i++) {
+            for (int j = 0; j < coordinates.size() - 1; j++) {
+                if(i==j) continue;
+                int[] firstWallFirstPoint = coordinates.get(i);
+                int[] firstWallSecondPoint = coordinates.get(i+1);
+                int[] secondWallFirstPoint = coordinates.get(j);
+                int[] secondWallSecondPoint = coordinates.get(j+1);
+                if(differentlyOriented(firstWallFirstPoint, firstWallSecondPoint,
+                        secondWallFirstPoint, secondWallSecondPoint)
+                && crossOneAnother(firstWallFirstPoint, firstWallSecondPoint,
+                        secondWallFirstPoint, secondWallSecondPoint)){
+                    throw new CrossingWallsException();
+                }
+            }
+        }
 
-        };
+    }
+
+    private boolean crossOneAnother(int[] firstWallFirstPoint, int[] firstWallSecondPoint, int[] secondWallFirstPoint,
+                                    int[] secondWallSecondPoint) {
+        int[] theMostRightCornerCoordinates = firstWallFirstPoint;
+        int[] theMostLeftCornerCoordinates = firstWallSecondPoint;
+        if (firstWallFirstPoint[0] < firstWallSecondPoint[0]){
+            theMostRightCornerCoordinates = firstWallSecondPoint;
+            theMostLeftCornerCoordinates = firstWallFirstPoint;
+        }
+
+
+        if ((firstWallFirstPoint[0] > secondWallFirstPoint[0]
+                && firstWallFirstPoint[0] > secondWallSecondPoint[0]
+                && firstWallSecondPoint[0] < secondWallFirstPoint[0]
+                && firstWallSecondPoint[0] < secondWallSecondPoint[0])
+                &&
+                (true)) {
+
+        }
+        return false;
+    }
+
+    private boolean differentlyOriented(int[] firstWallFirstPoint, int[] firstWallSecondPoint,
+                                        int[] secondWallFirstPoint, int[] secondWallSecondPoint) {
+        return (isRightLeft(firstWallFirstPoint, firstWallSecondPoint)
+                && !isRightLeft(secondWallFirstPoint, secondWallSecondPoint))
+                || (!isRightLeft(firstWallFirstPoint, firstWallSecondPoint)
+                && isRightLeft(secondWallFirstPoint, secondWallSecondPoint));
     }
 
     private boolean isRightLeft(int[] firstPairOfCoordinates, int[] secondPairOfCoordinates) {
