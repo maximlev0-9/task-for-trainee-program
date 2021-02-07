@@ -2,7 +2,6 @@ package ua.lviv.iot.traineevacancy.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Room {
     private List<int[]> coordinates;
