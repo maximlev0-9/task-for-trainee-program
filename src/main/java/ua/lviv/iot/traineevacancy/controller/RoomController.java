@@ -11,23 +11,26 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/room")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RoomController {
 
     private final RoomService service;
 
     @PostMapping
     public ResponseEntity addRoom(@RequestBody Room room) {
+        System.out.println("Post successfully arrived");
+        System.out.println(room);
         return service.addRoom(room);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Room> getById(@PathVariable("id") int id) {
-        return service.getRoomById(id);
     }
 
     @GetMapping
     public ResponseEntity<Collection<Room>> getAllRooms() {
         return service.getAllRooms();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Room> deleteRoom(@PathVariable("id") int id){
+        return service.deleteRoom(id);
     }
 
 

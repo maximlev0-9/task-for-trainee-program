@@ -1,5 +1,5 @@
 @import "normalize.css";
 @import "header.css";
-@import "room_card.css";
 @import "footer.css";
-@import "section1.css";
+@import "section.css";
+@import "create_room.css";

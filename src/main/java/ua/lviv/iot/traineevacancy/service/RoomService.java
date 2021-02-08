@@ -22,15 +22,11 @@ public class RoomService {
             repository.addRoom(room);
             return ResponseEntity.status(HttpStatus.OK).body(room);
         } else {
+            System.out.println(error);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 
-    public ResponseEntity<Room> getRoomById(int id) {
-        Room byId = repository.getById(id);
-        return ResponseEntity.status(byId == null ? HttpStatus.NOT_FOUND : HttpStatus.OK).body(byId);
-    }
-    
     public ResponseEntity<Collection<Room>> getAllRooms() {
         return ResponseEntity.ok(repository.getAllRooms());
     }
@@ -70,6 +66,7 @@ public class RoomService {
         } catch (CrossingWallsException e) {
             return "Walls are crossing";
         }
+        room.getCoordinates().remove(room.getCoordinates().size() - 1);
         return null;
     }
 
@@ -162,16 +159,21 @@ public class RoomService {
      * everything is ok!
      */
     private boolean crossOneAnother(int[]... points) {
-        Arrays.sort(points);
+        Arrays.sort(points, Arrays::compare);
         for (int i = 0; i < points.length - 1; i++) {
             if (Arrays.equals(points[i], points[i + 1])) return false;
         }
         Map<String, int[]> pointsMap = initializeMapForCrossOneAnotherMethod(points[0]);
         comparePointsWithValuesInMapAndUpdateMap(pointsMap, points);
 
-        int[][] values = (int[][]) pointsMap.values().toArray();
+        ArrayList<int[]> ints = new ArrayList<>(pointsMap.values());
+        int[][] values = new int[ints.size()][];
+        for (int i = 0; i < ints.size(); i++) {
+            values[i] = ints.get(i);
+        }
+
         // TODO: check if works
-        Arrays.sort(values);
+        Arrays.sort(values, Arrays::compare);
 
         for (int i = 0; i < values.length - 1; i++) {
             if (Arrays.equals(values[i], values[i + 1])) {
@@ -225,8 +227,8 @@ public class RoomService {
 
         List<int[]> coordinates = room.getCoordinates();
         for (int i = 0; i < coordinates.size() - 1; i++) {
-            for (int k = 0; k < allRooms.size(); k++) {
-                List<int[]> existingRoomCoordinates = allRooms.get(k).getCoordinates();
+            for (Room allRoom : allRooms) {
+                List<int[]> existingRoomCoordinates = allRoom.getCoordinates();
                 for (int j = 0; j < existingRoomCoordinates.size() - 1; j++) {
                     int[] firstWallFirstPoint = coordinates.get(i);
                     int[] firstWallSecondPoint = coordinates.get(i + 1);
@@ -242,6 +244,14 @@ public class RoomService {
             }
         }
 
+    }
+
+    public ResponseEntity<Room> deleteRoom(int id) {
+        Room deleteRoom = repository.deleteRoom(id);
+        if (deleteRoom != null) {
+            return ResponseEntity.ok(deleteRoom);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
 

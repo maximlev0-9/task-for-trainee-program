@@ -13,16 +13,16 @@ public class RoomRepository {
     private final AtomicInteger serialNumber = new AtomicInteger(0);
 
     {
-        for (int i = 0; i < 3; i++) {
-
+        for (int i = 0; i < 5; i++) {
             Room value = new Room();
             value.setId(serialNumber.incrementAndGet());
             List<int[]> coordinates = new ArrayList<>();
-            coordinates.add(new int[]{1, 1});
-            coordinates.add(new int[]{1, 2});
-            coordinates.add(new int[]{2, 2});
-            coordinates.add(new int[]{2, 1});
+            coordinates.add(new int[]{i*4+1, i*10+1});
+            coordinates.add(new int[]{i*4+1, i*10+4});
+            coordinates.add(new int[]{i*4+3, i*10+4});
+            coordinates.add(new int[]{i*4+3, i*10+1});
             value.setCoordinates(coordinates);
+            value.setName("New Room " + (i+1));
             rooms.put(value.getId(), value);
         }
     }
@@ -32,11 +32,12 @@ public class RoomRepository {
         rooms.put(serialNumber.get(), room);
     }
 
-    public Room getById(int id) {
-        return rooms.get(id);
-    }
-
     public Collection<Room> getAllRooms() {
         return rooms.values();
     }
+
+    public Room deleteRoom(int id) {
+        return rooms.remove(id);
+    }
+
 }
