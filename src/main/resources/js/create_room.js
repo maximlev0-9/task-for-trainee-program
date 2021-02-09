@@ -1,7 +1,5 @@
 let submit_button = document.getElementById("submit_button");
 let name_input = document.getElementById("name_input");
-// let model_input = document.getElementById("model");
-// let price_input = document.getElementById("price");
 let form = document.getElementById("form");
 let add_more_button = document.getElementById("add_more_coords");
 let inputs = document.getElementById("input_container");
@@ -18,17 +16,21 @@ async function post() {
     coords.forEach((coord_pair) => {
         room.coordinates.push(coord_pair)
     })
-
+    console.log(room)
     await fetch('http://localhost:8080/room', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(room)
-    }).then(value => {
-        console.log(value);
-        // window.location.href = "./main.html"
-    });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(room)
+        }).then(response => response.json())
+        .then(response => {
+            if (response.error) {
+                alert(response.error)
+            } else {
+                window.location.href = "./main.html"
+            }
+        });
 
 }
 
@@ -75,5 +77,6 @@ add_more_button.addEventListener("click", () => {
 
 form.addEventListener("submit", async(event) => {
     event.preventDefault();
+    updateDOM()
     post();
 })

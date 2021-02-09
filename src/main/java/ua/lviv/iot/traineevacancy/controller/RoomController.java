@@ -7,6 +7,7 @@ import ua.lviv.iot.traineevacancy.model.Room;
 import ua.lviv.iot.traineevacancy.service.RoomService;
 
 import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/room")
@@ -17,7 +18,7 @@ public class RoomController {
     private final RoomService service;
 
     @PostMapping
-    public ResponseEntity addRoom(@RequestBody Room room) {
+    public ResponseEntity<Map<String, String>> addRoom(@RequestBody Room room) {
         System.out.println("Post successfully arrived");
         System.out.println(room);
         return service.addRoom(room);

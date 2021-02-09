@@ -86,3 +86,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.button_around_icon {
+    background-color: transparent;
+    padding: none;
+    margin: none;
+    border: none;
+}

@@ -5,6 +5,8 @@ const rooms_view_p = document.getElementById('view_of_rooms');
 // const search_button = document.getElementById("search_button");
 // const clear_button = document.getElementById("clear_button");
 // const search_input = document.getElementById("search_model_input");
+const toggle_rooms_button = document.getElementById("toggle_rooms_button");
+let show_rooms = true;
 
 let data = [];
 
@@ -119,8 +121,9 @@ function updateDOM(providedData = data) {
             <div class="room_card--main">
                 <p>Id:${room.id}</p>
                 <p>Name:${room.name}</p>
+                <p>Coords:${room.coordinates.join("; ")}</p>
             </div>
-            <button onclick="delete_room(${room.id})"><img class="room_card--trash_icon" src="assets/trash.svg" /></button>
+            <button onclick="delete_room(${room.id})" class="button_around_icon"><img class="room_card--trash_icon" src="assets/trash.svg" /></button>
         </div>`;
 
         rooms.appendChild(element);
@@ -140,15 +143,22 @@ function updateDOM(providedData = data) {
     rooms.append(element);
 
     // use 2d array of room views to represent rooms in room_view_p variable
-
     let innerHTML = '';
+    if (show_rooms) {
 
-    for (const values of array_of_walls_and_space) {
-        innerHTML += "<span>"
-        console.log(values)
-        innerHTML += values.join('')
-        innerHTML += "<span/><br/>"
+        for (const values of array_of_walls_and_space) {
+            innerHTML += "<span>"
+            console.log(values)
+            innerHTML += values.join('  ')
+            innerHTML += "<span/><br/>"
+        }
+        innerHTML += "<br/><br/>"
+        rooms_view_p.innerHTML = innerHTML;
     }
-    console.log(innerHTML)
     rooms_view_p.innerHTML = innerHTML;
 }
+
+toggle_rooms_button.addEventListener("click", () => {
+    show_rooms = !show_rooms;
+    updateDOM();
+})
