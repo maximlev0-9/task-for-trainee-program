@@ -19,8 +19,6 @@ public class RoomController {
 
     @PostMapping
     public ResponseEntity<Map<String, String>> addRoom(@RequestBody Room room) {
-        System.out.println("Post successfully arrived");
-        System.out.println(room);
         return service.addRoom(room);
     }
 

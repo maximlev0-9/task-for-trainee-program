@@ -64,37 +64,17 @@ async function get_all_rooms() {
 }
 
 function replace_walls_with_asterisks(first_coords, second_coords) {
-    // if x are equal
-    // console.log("array_of_walls_and_space.length")
-    // console.log(array_of_walls_and_space.length)
-    // console.log("array_of_walls_and_space[0].length")
-    // console.log(array_of_walls_and_space[0].length)
-    // console.log("y_smallest")
-    // console.log(y_smallest)
 
     if (first_coords[0] === second_coords[0]) {
         for (let y = min(first_coords[1], second_coords[1]) - y_smallest; y <= max(first_coords[1], second_coords[1]) - y_smallest; y++) {
-            // console.log("first_coords[0]")
-            // console.log(first_coords[0])
-            // console.log("y")
-            // console.log(y)
             array_of_walls_and_space[y][first_coords[0] - x_smallest] = '0'
         }
     } else {
         for (let x = min(first_coords[0], second_coords[0]) - x_smallest; x <= max(first_coords[0], second_coords[0]) - x_smallest; x++) {
-            // console.log("first_coords[1]")
-            // console.log(first_coords[1])
-            // console.log("x")
-            // console.log(x)
             array_of_walls_and_space[first_coords[1] - y_smallest][x] = '0'
         }
     }
 }
-
-// function go_to_edit_page(idOfCar) {
-//     let car = data.filter(value => value["id"] === idOfCar)[0]
-//     window.location.href = `edit_car.html?name=${car.name}&model=${car.model}&price=${car.price}&id=${car.id}`;
-// }
 
 function add_data(obj) {
     data.push(obj);
@@ -148,7 +128,6 @@ function updateDOM(providedData = data) {
 
         for (const values of array_of_walls_and_space) {
             innerHTML += "<span>"
-            console.log(values)
             innerHTML += values.join('  ')
             innerHTML += "<span/><br/>"
         }

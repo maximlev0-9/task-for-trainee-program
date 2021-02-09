@@ -16,7 +16,6 @@ async function post() {
     coords.forEach((coord_pair) => {
         room.coordinates.push(coord_pair)
     })
-    console.log(room)
     await fetch('http://localhost:8080/room', {
             method: 'POST',
             headers: {

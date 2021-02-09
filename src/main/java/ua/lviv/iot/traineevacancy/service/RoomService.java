@@ -26,7 +26,6 @@ public class RoomService {
             return ResponseEntity.status(HttpStatus.OK).build();
 
         } else {
-            System.out.println(error);
             HashMap<String, String> errorMap = new HashMap<>();
             errorMap.put("error", error);
             return ResponseEntity.status(HttpStatus.OK).body(errorMap);
