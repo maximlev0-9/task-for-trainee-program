@@ -1,0 +1,95 @@
+.section1 {
+    margin: 2rem 8% 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.room_card_wrapper {
+    box-sizing: border-box;
+    /* display: inline; */
+    /* width: 100%; */
+    margin: 0.2rem 1rem;
+}
+
+.room_card {
+    background-color: #ea5;
+    border: 0.08rem black solid;
+    /* margin: 0.4rem; */
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+}
+
+.room_card--main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.room_card--trash_icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.room_card--trash_icon:hover {
+    cursor: pointer;
+}
+
+.room_card--trash_icon:active {
+    cursor: auto;
+}
+
+.lightgrey {
+    background-color: #ddd;
+}
+
+.add_button-wrapper {
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.add_button {
+    width: 4rem;
+    height: 4rem;
+}
+
+.section2 {
+    padding-top: 3rem;
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text_rooms {
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+}
+
+.button_wrapper {
+    margin: 1rem;
+    padding: 1rem;
+    border-top: 0.1rem #d72 solid;
+    border-bottom: 0.1rem #d72 solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_around_icon {
+    background-color: transparent;
+    padding: none;
+    margin: none;
+    border: none;
+}

@@ -7,27 +7,29 @@ import ua.lviv.iot.traineevacancy.model.Room;
 import ua.lviv.iot.traineevacancy.service.RoomService;
 
 import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/room")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RoomController {
 
     private final RoomService service;
 
     @PostMapping
-    public ResponseEntity addRoom(@RequestBody Room room) {
+    public ResponseEntity<Map<String, String>> addRoom(@RequestBody Room room) {
         return service.addRoom(room);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Room> getById(@PathVariable("id") int id) {
-        return service.getRoomById(id);
     }
 
     @GetMapping
     public ResponseEntity<Collection<Room>> getAllRooms() {
         return service.getAllRooms();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Room> deleteRoom(@PathVariable("id") int id){
+        return service.deleteRoom(id);
     }
 
 

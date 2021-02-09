@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Creating room</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header__nav">
+            <img class="icon" src="assets/room_plan_icon.svg" />
+            <ul class="header__nav-ul">
+                <li class="nav_element"><a href="main.html">All rooms</a></li>
+                <li class="nav_element"><a href="create_room.html">Create room</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="section_room_creation">
+        <form id="form" action="main.html" method="post" class="form_container">
+            <h2 id="title_of_create_car_page">Create New Room</h2>
+            <p>Name</p>
+            <input class="container__input" type="text" autocomplete="off" id="name_input" name="name" required>
+            <p>Coordinates:</p>
+            <div id="input_container">
+            </div>
+            <button class="add_more_coords" id="add_more_coords" type="button">Add more coords</button>
+
+            <br>
+            <div class="flex">
+                <button id="submit_button" class="container__button" type="submit">Submit</button>
+                <button onclick="changeToMainHtmlPage()" type="reset" class="container__button cancel_button">Cancel</button>
+            </div>
+        </form>
+    </section>
+    <script src="js/create_room.js"></script>
+</body>
+
+</html>

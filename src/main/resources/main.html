@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Room validator</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header__nav">
+            <img class="icon" src="assets/room_plan_icon.svg" />
+            <ul class="header__nav-ul">
+                <li class="nav_element"><a href="main.html">All rooms</a></li>
+                <li class="nav_element"><a href="create_room.html">Create room</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section1" id="room_container">
+        <div class="room_card_wrapper">
+            <div class="room_card">
+                <div class="room_card--main">
+                    <p>Id:</p>
+                    <p>Name:</p>
+                </div>
+                <img class="room_card--trash_icon" src="assets/trash.svg" />
+            </div>
+        </div>
+        <div>
+            <a href="#">
+                <div class="room_card_wrapper">
+                    <div class="room_card lightgrey">
+                        <div class="add_button-wrapper">
+                            <img class="add_button" src="assets/plus.svg" />
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+    <div class="button_wrapper">
+        <button id="toggle_rooms_button">Toggle representation of rooms</button>
+    </div>
+    <section class="section2">
+
+        <div id="view_of_rooms" class="text_rooms">
+
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
